@@ -5,11 +5,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
+import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_kotlin_main2.*
 
-class KotlinMain2Activity : AppCompatActivity() {
+class KotlinMain2Activity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
 
+    //Modo de acción contextual---------------------------------------------------------------------
     var actionMode : ActionMode? = null
 
     private val actionModeCallback = object : ActionMode.Callback {
@@ -50,12 +52,14 @@ class KotlinMain2Activity : AppCompatActivity() {
         }
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kotlin_main2)
         //Menú contextual flotante------------------------------------------------------------------
         //registerForContextMenu(tvLong)
 
+        //Modo de acción contextual-----------------------------------------------------------------
         tvLong.setOnLongClickListener { view ->
             // Called when the user long-clicks on someView
             when (actionMode) {
@@ -67,6 +71,11 @@ class KotlinMain2Activity : AppCompatActivity() {
                 }
                 else -> false
             }
+        }
+
+        //Menú emergente----------------------------------------------------------------------------
+        ibPopupMenu.setOnClickListener { view ->
+            showPopup(view)
         }
     }
 
@@ -98,6 +107,7 @@ class KotlinMain2Activity : AppCompatActivity() {
         }
     }
 
+    //Menú de opciones------------------------------------------------------------------------------
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
         //inflater.inflate(R.menu.menu_main2, menu)
@@ -119,6 +129,7 @@ class KotlinMain2Activity : AppCompatActivity() {
         }
     }
 
+    //Menú contextual flotante----------------------------------------------------------------------
     override fun onCreateContextMenu(menu: ContextMenu, v: View,
                                      menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
@@ -137,6 +148,37 @@ class KotlinMain2Activity : AppCompatActivity() {
                 true
             }
             else -> super.onContextItemSelected(item)
+        }
+    }
+
+    //Menú emergente--------------------------------------------------------------------------------
+//    fun showPopup(view: View) {
+//        val popup = PopupMenu(this, view)
+//        val inflater: MenuInflater = popup.menuInflater
+//        inflater.inflate(R.menu.menu_main2, popup.menu)
+//        popup.show()
+//    }
+
+    fun showPopup(view: View) {
+        PopupMenu(this, view).apply {
+            // KotlinMain2Activity implements OnMenuItemClickListener
+            setOnMenuItemClickListener(this@KotlinMain2Activity)
+            inflate(R.menu.menu_main2)
+            show()
+        }
+    }
+
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.kmoneda -> {
+                startActivity(Intent(this, KotlinMainActivity::class.java))
+                true
+            }
+            R.id.jmoneda -> {
+                startActivity(Intent(this, MainActivity::class.java))
+                true
+            }
+            else -> false
         }
     }
 }

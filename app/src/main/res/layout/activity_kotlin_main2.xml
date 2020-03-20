@@ -47,8 +47,9 @@
         android:id="@+id/btnMostrarMapa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Mostrar mapa"
+        android:layout_marginTop="40dp"
         android:onClick="MostrarMapa"
+        android:text="Mostrar mapa"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnMandarMensaje" />
@@ -57,9 +58,28 @@
         android:id="@+id/tvLong"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:text="Long click me!"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnMostrarMapa" />
+
+    <ImageButton
+        android:id="@+id/ibPopupMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="20dp"
+        android:contentDescription="Something"
+        android:onClick="showPopup"
+        android:scaleType="centerCrop"
+        android:src="@drawable/imagebutton_with_popup_menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvLong" />
 </androidx.constraintlayout.widget.ConstraintLayout>
