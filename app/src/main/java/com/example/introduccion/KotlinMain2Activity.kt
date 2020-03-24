@@ -72,11 +72,6 @@ class KotlinMain2Activity : AppCompatActivity(), PopupMenu.OnMenuItemClickListen
                 else -> false
             }
         }
-
-        //Menú emergente----------------------------------------------------------------------------
-        ibPopupMenu.setOnClickListener { view ->
-            showPopup(view)
-        }
     }
 
     fun ConversorMoneda(view: View) {
@@ -152,13 +147,6 @@ class KotlinMain2Activity : AppCompatActivity(), PopupMenu.OnMenuItemClickListen
     }
 
     //Menú emergente--------------------------------------------------------------------------------
-//    fun showPopup(view: View) {
-//        val popup = PopupMenu(this, view)
-//        val inflater: MenuInflater = popup.menuInflater
-//        inflater.inflate(R.menu.menu_main2, popup.menu)
-//        popup.show()
-//    }
-
     fun showPopup(view: View) {
         PopupMenu(this, view).apply {
             // KotlinMain2Activity implements OnMenuItemClickListener
