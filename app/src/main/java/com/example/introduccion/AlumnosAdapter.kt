@@ -1,5 +1,6 @@
 package com.example.introduccion
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +30,13 @@ class AlumnosAdapter(private val dataSet: List<Alumno>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder.itemView.setOnClickListener {
-            Toast.makeText(holder.itemView.context, dataSet.get(position).nombre, Toast.LENGTH_LONG).show()
+            //Toast.makeText(holder.itemView.context, dataSet.get(position).nombre, Toast.LENGTH_LONG).show()
+            val intent = Intent(holder.itemView.context, DatosAlumnoActivity:: class.java)
+            intent.putExtra("control", dataSet.get(position).control)
+            intent.putExtra("nombre", dataSet.get(position).nombre)
+            intent.putExtra("carrera",dataSet.get(position).carrera)
+
+            holder.itemView.context.startActivity(intent)
         }
 
         holder.tvControl.text = dataSet.get(position).control
