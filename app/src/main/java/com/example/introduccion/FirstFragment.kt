@@ -25,7 +25,10 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<Button>(R.id.button_first).setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+            val bundle = Bundle()
+            bundle.putString("dato", "El dato desde el Fragment 1")
+
+            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment, bundle)
         }
     }
 }
