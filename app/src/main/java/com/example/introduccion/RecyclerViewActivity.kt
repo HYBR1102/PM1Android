@@ -40,11 +40,17 @@ class RecyclerViewActivity : AppCompatActivity(), EliminarAlumnoDialogFragment.E
         Singleton.dataSet.removeAt(position)
         recyclerView.adapter?.notifyItemRemoved(position)
 
+//        Snackbar.make(recyclerView, "Alumno eliminado ${alumno.control}", Snackbar.LENGTH_LONG)
+//                .setAction("Deshacer") {
+//                    Singleton.dataSet.add(position, alumno)
+//                    recyclerView.adapter?.notifyItemInserted(position)
+//                }.show()
+
         Snackbar.make(recyclerView, "Alumno eliminado ${alumno.control}", Snackbar.LENGTH_LONG)
-                .setAction("Deshacer") {
+                .setAction("Deshacer", {
                     Singleton.dataSet.add(position, alumno)
                     recyclerView.adapter?.notifyItemInserted(position)
-                }.show()
+                }).show()
     }
 
     override fun onDialogNegativeClick(position: Int) {
