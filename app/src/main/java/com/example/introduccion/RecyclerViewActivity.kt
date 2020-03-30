@@ -2,10 +2,17 @@ package com.example.introduccion
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_recycler_view.*
 
-class RecyclerViewActivity : AppCompatActivity() {
+class RecyclerViewActivity : AppCompatActivity(), EliminarAlumnoDialogFragment.EliminarAlumnoDialogListener {
+
+    val onLongItemClickListener: (Int) -> Unit = {position ->
+//        Toast.makeText(this, "Eliminar a ${Singleton.dataSet.get(position).control}", Toast.LENGTH_LONG).show()
+        DialogEliminarAlumno(position)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,16 +21,33 @@ class RecyclerViewActivity : AppCompatActivity() {
         LoadData()
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = AlumnosAdapter(dataSet)
+        recyclerView.adapter = AlumnosAdapter(onLongItemClickListener)
     }
 
     private fun LoadData() {
         for(x in 0..20) {
-            dataSet.add(Alumno("16100${x.toString().padStart(3,'0')}","Estudiante ${x}","${if(x%2==0) "Ingeniería en Sistemas Computacionales" else "Ingeniería Industrial"}"))
+            Singleton.dataSet.add(Alumno("16100${x.toString().padStart(3,'0')}","Estudiante ${x}","${if(x%2==0) "Ingeniería en Sistemas Computacionales" else "Ingeniería Industrial"}"))
         }
     }
 
-    companion object {
-        val dataSet = arrayListOf<Alumno>()
+    private fun DialogEliminarAlumno(position: Int) {
+        val dialog = EliminarAlumnoDialogFragment(position)
+        dialog.show(supportFragmentManager, "NoticeDialogFragment")
+    }
+
+    override fun onDialogPositiveClick(position: Int) {
+        val alumno = Singleton.dataSet.get(position)
+        Singleton.dataSet.removeAt(position)
+        recyclerView.adapter?.notifyItemRemoved(position)
+
+        Snackbar.make(recyclerView, "Alumno eliminado ${alumno.control}", Snackbar.LENGTH_LONG)
+                .setAction("Deshacer") {
+                    Singleton.dataSet.add(position, alumno)
+                    recyclerView.adapter?.notifyItemInserted(position)
+                }.show()
+    }
+
+    override fun onDialogNegativeClick(position: Int) {
+        Toast.makeText(this, "No se eliminó al alumno", Toast.LENGTH_SHORT).show()
     }
 }
