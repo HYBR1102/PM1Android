@@ -24,6 +24,12 @@ class RecyclerViewActivity : AppCompatActivity(), EliminarAlumnoDialogFragment.E
         recyclerView.adapter = AlumnosAdapter(onLongItemClickListener)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        recyclerView.adapter?.notifyDataSetChanged()
+    }
+
     private fun LoadData() {
         for(x in 0..20) {
             Singleton.dataSet.add(Alumno("16100${x.toString().padStart(3,'0')}","Estudiante ${x}","${if(x%2==0) "Ingeniería en Sistemas Computacionales" else "Ingeniería Industrial"}"))
@@ -38,7 +44,8 @@ class RecyclerViewActivity : AppCompatActivity(), EliminarAlumnoDialogFragment.E
     override fun onDialogPositiveClick(position: Int) {
         val alumno = Singleton.dataSet.get(position)
         Singleton.dataSet.removeAt(position)
-        recyclerView.adapter?.notifyItemRemoved(position)
+        //recyclerView.adapter?.notifyItemRemoved(position)
+        recyclerView.adapter?.notifyDataSetChanged()
 
 //        Snackbar.make(recyclerView, "Alumno eliminado ${alumno.control}", Snackbar.LENGTH_LONG)
 //                .setAction("Deshacer") {
@@ -49,7 +56,8 @@ class RecyclerViewActivity : AppCompatActivity(), EliminarAlumnoDialogFragment.E
         Snackbar.make(recyclerView, "Alumno eliminado ${alumno.control}", Snackbar.LENGTH_LONG)
                 .setAction("Deshacer", {
                     Singleton.dataSet.add(position, alumno)
-                    recyclerView.adapter?.notifyItemInserted(position)
+                    //recyclerView.adapter?.notifyItemInserted(position)
+                    recyclerView.adapter?.notifyDataSetChanged()
                 }).show()
     }
 
